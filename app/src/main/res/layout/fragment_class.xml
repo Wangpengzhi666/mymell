@@ -5,4 +5,8 @@
     android:background="@color/black"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/HomeTopInclude"
+        layout="@layout/inculde_search"/>
+
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.wpzmall.mymall;
+package com.wpzmall.mymall.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.wpzmall.mymall.R;
 import com.wpzmall.mymall.view.frgament.CartFragment;
 import com.wpzmall.mymall.view.frgament.ClassFragment;
 import com.wpzmall.mymall.view.frgament.HomeFragment;
