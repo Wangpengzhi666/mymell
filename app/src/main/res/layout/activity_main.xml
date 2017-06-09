@@ -1,18 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wpzmall.mymall.MainActivity">
+    <FrameLayout
+        android:id="@+id/MainFragment"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+    <RadioGroup
+        android:id="@+id/MainRadioGroup"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/HomeRadioButton"
+            android:text="首页"
+            style="@style/RadioButton.Nav"
+            android:textColor="@color/main"
+            android:drawableTop="@mipmap/ic_nav_home_press"/>
+        <RadioButton
+            android:id="@+id/ClassRadioButton"
+            android:text="分类"
+            style="@style/RadioButton.Nav"
+            android:drawableTop="@mipmap/ic_nav_class"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/CartRadioButton"
+            android:text="购物车"
+            style="@style/RadioButton.Nav"
+            android:drawableTop="@mipmap/ic_nav_cart"/>
+        <RadioButton
+            android:id="@+id/UserRadioButton"
+            android:text="个人"
+            style="@style/RadioButton.Nav"
+            android:drawableTop="@mipmap/ic_nav_user"/>
+    </RadioGroup>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
