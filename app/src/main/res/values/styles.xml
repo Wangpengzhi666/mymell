@@ -47,5 +47,18 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
     </style>
+    
+    <style name="EditText.login" parent="Control">
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:paddingRight">8dip</item>
+        <item name="android:layout_height">48dip</item>
+        <item name="android:drawablePadding">8dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textColorHint">@color/greyAdd</item>
+        <item name="android:background">@drawable/selector_edit_line</item>
+    </style>
 
 </resources>
