@@ -1,10 +1,12 @@
 package com.wpzmall.mymall.view.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
@@ -28,11 +30,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ClassFragment classFragment;
     private CartFragment cartFragment;
     private UserFragment userFragment;
+    //默认显示的值
+    private int Display = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int key4 =  this.getIntent().getIntExtra("key4",4);
+        if (key4 == 4){
+            Display = key4;
+        }
+
 
         initView();
         initDefultView();
@@ -46,11 +55,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CartRadioButton = (RadioButton) findViewById(R.id.CartRadioButton);
         UserRadioButton = (RadioButton) findViewById(R.id.UserRadioButton);
         MainRadioGroup = (RadioGroup) findViewById(R.id.MainRadioGroup);
-
+        switch (Display){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                HomeRadioButton.setChecked(false);
+                UserRadioButton.setChecked(true);
+                break;
+        }
         HomeRadioButton.setOnClickListener(this);
         ClassRadioButton.setOnClickListener(this);
         CartRadioButton.setOnClickListener(this);
         UserRadioButton.setOnClickListener(this);
+
     }
 
     @Override

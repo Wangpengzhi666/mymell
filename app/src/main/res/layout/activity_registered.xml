@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/registered_return_title"
+        layout="@layout/inculde_return_title"/>
+    <LinearLayout
+        android:background="@drawable/login_fillet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/registered_username"
+            style="@style/EditText.login"
+            android:hint="请输入账号"
+            android:drawableLeft="@mipmap/ic_edit_username"
+            />
+        <EditText
+            android:id="@+id/registered_password"
+            style="@style/EditText.login"
+            android:hint="请输入密码"
+            android:drawableLeft="@mipmap/ic_edit_password"/>
+        <EditText
+            android:id="@+id/registered_topassword"
+            style="@style/EditText.login"
+            android:hint="请再次输入密码"
+            android:drawableLeft="@mipmap/ic_edit_password"/>
+        <EditText
+            android:id="@+id/registered_email"
+            style="@style/EditText.login"
+            android:hint="请输入邮箱地址"
+            android:drawableLeft="@mipmap/ic_edit_email"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/registered_button"
+        style="@style/Textview.button"
+        android:text="注册"/>
+
+</LinearLayout>

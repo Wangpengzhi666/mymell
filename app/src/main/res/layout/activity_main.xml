@@ -38,6 +38,7 @@
         <RadioButton
             android:id="@+id/UserRadioButton"
             android:text="个人"
+
             style="@style/RadioButton.Nav"
             android:drawableTop="@mipmap/ic_nav_user"/>
     </RadioGroup>

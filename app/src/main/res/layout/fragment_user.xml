@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/UserScrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/greySub">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,12 +15,14 @@
             android:layout_height="240dp">
 
             <TextView
+                android:id="@+id/User_Login_Text"
                 android:padding="10dp"
                 android:layout_above="@+id/uuu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="   点击登陆"
+                android:text="点击登陆"
+                android:gravity="center"
                 android:drawableTop="@mipmap/ic_default_user_head"
                 android:drawablePadding="10dp"
                 android:textColor="@color/white"
@@ -33,14 +36,17 @@
                 android:background="@color/backgroundUser"
                 android:layout_height="60dp">
                 <TextView
+                    android:id="@+id/User_black_commodity"
                     style="@style/TextView.User"
                     android:text="商品收藏"
                     android:drawableTop="@mipmap/ic_collection_goods"/>
                 <TextView
+                    android:id="@+id/User_black_shop"
                     style="@style/TextView.User"
                     android:text="店铺收藏"
                     android:drawableTop="@mipmap/ic_collection_store"/>
                 <TextView
+                    android:id="@+id/User_black_foot"
                     style="@style/TextView.User"
                     android:text="我的足迹"
                     android:drawableTop="@mipmap/ic_user_footprint"/>
@@ -51,28 +57,35 @@
         <TextView
             style="@style/TextView.User.Title"
             android:drawableLeft="@mipmap/ic_user_order"
-            android:text="全部订单"/>
+            android:text="全部订单"
+            android:layout_marginBottom="3dp"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@color/white">
             <TextView
+                android:id="@+id/User_oeder_Unpaid"
                 style="@style/TextView.User.subTitle"
                 android:text="未付款"
                 android:drawableTop="@mipmap/ic_user_order_wait_pay"/>
             <TextView
+                android:id="@+id/User_oeder_to_be_delivered"
                 style="@style/TextView.User.subTitle"
                 android:text="待发货"
                 android:drawableTop="@mipmap/ic_user_order_wait_drive"/>
             <TextView
+                android:id="@+id/User_oeder_to_be_received"
                 style="@style/TextView.User.subTitle"
                 android:text="待收货"
                 android:drawableTop="@mipmap/ic_user_order_wait_receipt"/>
             <TextView
+                android:id="@+id/User_oeder_be_evaluated"
                 style="@style/TextView.User.subTitle"
                 android:text="待评价"
                 android:drawableTop="@mipmap/ic_user_order_wait_comment"/>
             <TextView
+                android:id="@+id/User_oeder_Refunds"
                 style="@style/TextView.User.subTitle"
                 android:text="退款/货"
                 android:drawableTop="@mipmap/ic_user_order_wait_refund"/>
@@ -81,28 +94,35 @@
         <TextView
             style="@style/TextView.User.Title"
             android:drawableLeft="@mipmap/ic_user_property"
-            android:text="我的财产"/>
+            android:text="我的财产"
+            android:layout_marginBottom="3dp"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@color/white">
             <TextView
+                android:id="@+id/User_property_Pre_stored"
                 style="@style/TextView.User.subTitle"
                 android:text="预存款"
                 android:drawableTop="@mipmap/ic_user_property_money"/>
             <TextView
+                android:id="@+id/User_property_Recharge"
                 style="@style/TextView.User.subTitle"
                 android:text="充值卡"
                 android:drawableTop="@mipmap/ic_user_property_card"/>
             <TextView
+                android:id="@+id/User_property_Vouchers"
                 style="@style/TextView.User.subTitle"
                 android:text="代金券"
                 android:drawableTop="@mipmap/ic_user_property_vouchers"/>
             <TextView
+                android:id="@+id/User_property_red"
                 style="@style/TextView.User.subTitle"
                 android:text="红 包"
                 android:drawableTop="@mipmap/ic_user_property_red"/>
             <TextView
+                android:id="@+id/User_property_Pre_integral"
                 style="@style/TextView.User.subTitle"
                 android:text="积 分"
                 android:drawableTop="@mipmap/ic_user_property_integral"/>
@@ -110,12 +130,14 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/User_address"
             style="@style/TextView.User.Title"
             android:drawableLeft="@mipmap/ic_user_address"
             android:text="收货地址"/>
         <TextView
+            android:id="@+id/User_setting"
             style="@style/TextView.User.Title"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="10dp"
             android:drawableLeft="@mipmap/ic_user_setting"
             android:text="系统设置"/>
