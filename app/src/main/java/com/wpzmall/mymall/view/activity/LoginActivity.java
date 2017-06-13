@@ -108,8 +108,13 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
 
     @Override
     public void callbackData(LoginBean loginBean) {
-        Log.e("LogActivity   :  ",loginBean.getDatas().getError());
-        Toast.makeText(LoginActivity.this,loginBean.getDatas().getError(),Toast.LENGTH_LONG).show();
+        int code = loginBean.getCode();
+        if (code == 200){
+            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        Log.e("++++++asd++asd+++asd",code + "");
     }
 
     @Override

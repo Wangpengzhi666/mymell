@@ -35,6 +35,8 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
     private EditText registeredEmail;
     private TextView registeredButton;
     private RegPresenter regPresenter;
+    private String topassword;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
     @Override
     public void callbackData(RegisteredBean registerBean) {
         Log.e("注册  :   " , registerBean.toString());
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -86,15 +89,40 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
             return;
         }
 
-        String password = registeredPassword.getText().toString().trim();
+        password = registeredPassword.getText().toString().trim();
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
             return;
         }
+        topassword = registeredTopassword.getText().toString().trim();
+        if (!password.equals(topassword)) {
+            Toast.makeText(RegisteredActivity.this, "密码不一样", Toast.LENGTH_SHORT).show();
+            return;
 
-        String topassword = registeredTopassword.getText().toString().trim();
+        }
+
         if (TextUtils.isEmpty(topassword)) {
             Toast.makeText(this, "请再次输入密码", Toast.LENGTH_SHORT).show();
+            registeredTopassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    // TODO Auto-generated method stub
+                    if(hasFocus){
+                        //获得焦点处理
+
+                        password = registeredPassword.getText().toString().trim();
+                    }
+                    else {
+                        //失去焦点处理
+                        if (!password.equals(topassword)) {
+                            Toast.makeText(RegisteredActivity.this, "密码不一样", Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+
+                    }
+                }
+            });
             return;
         }
 
@@ -105,7 +133,7 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
         }
 
         // TODO validate success, do something
-        regPresenter.getRegisterNwtWorkData(username,password,topassword,email);
+        regPresenter.getRegisterNwtWorkData(username, password, topassword,email);
 
 
     }
