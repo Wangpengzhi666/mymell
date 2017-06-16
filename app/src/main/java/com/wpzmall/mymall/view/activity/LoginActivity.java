@@ -95,6 +95,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
             case R.id.login_text_zhuce:
                 Intent intent = new Intent(LoginActivity.this, RegisteredActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in,R.anim.out);
                 break;
             case R.id.login_text_password:
                 break;
@@ -102,6 +103,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
                 Intent returnintent = new Intent(LoginActivity.this, MainActivity.class);
                 returnintent.putExtra("key4",4);
                 startActivity(returnintent);
+                overridePendingTransition(R.anim.out,R.anim.in);
                 break;
         }
     }
@@ -113,6 +115,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_LONG).show();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.out,R.anim.in);
         }
         Log.e("++++++asd++asd+++asd",code + "");
     }

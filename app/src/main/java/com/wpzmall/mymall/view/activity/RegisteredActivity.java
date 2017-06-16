@@ -23,6 +23,7 @@ import com.wpzmall.mymall.view.iview.IRegView;
  * @Date: 2017/6/12  11:59
  * <p>
  * 思路：
+ *
  */
 
 
@@ -67,11 +68,15 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
     @Override
     public void callbackData(RegisteredBean registerBean) {
         Log.e("注册  :   " , registerBean.toString());
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "注册  :   " + registerBean.toString(), Toast.LENGTH_SHORT).show();
+        Intent returnIntent = new Intent(RegisteredActivity.this, LoginActivity.class);
+        startActivity(returnIntent);
+        overridePendingTransition(R.anim.in,R.anim.out);
     }
 
     @Override
     public void callbackErrer(String errcode) {
+        Toast.makeText(this, "注册  :   " + errcode.toString(), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -117,21 +122,18 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
                         if (!password.equals(topassword)) {
                             Toast.makeText(RegisteredActivity.this, "密码不一样", Toast.LENGTH_SHORT).show();
                             return;
-
                         }
-
                     }
                 }
             });
             return;
+
         }
 
         String email = registeredEmail.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "请输入邮箱地址", Toast.LENGTH_SHORT).show();
             return;
-        }else if (MyTextUtils.isEmailAddress(email)){
-            Toast.makeText(this, "请输入正确的邮箱地址", Toast.LENGTH_SHORT).show();
         }
 
         // TODO validate success, do something
@@ -146,6 +148,7 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
             case R.id.image_lift_arrow:
                 Intent returnIntent = new Intent(RegisteredActivity.this, LoginActivity.class);
                 startActivity(returnIntent);
+                overridePendingTransition(R.anim.in,R.anim.out);
                 break;
             case R.id.registered_button:
                 submit();

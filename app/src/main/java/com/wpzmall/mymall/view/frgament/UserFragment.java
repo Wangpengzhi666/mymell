@@ -100,6 +100,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             case R.id.User_Login_Text:
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.in, R.anim.out);
                 break;
         }
 
