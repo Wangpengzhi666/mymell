@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.wpzmall.mymall.R;
 import com.wpzmall.mymall.model.Bean.Registered.RegisteredBean;
+import com.wpzmall.mymall.model.utils.MyTextUtils;
 import com.wpzmall.mymall.presenter.RegPresenter;
-import com.wpzmall.mymall.view.iview.ILoginView;
 import com.wpzmall.mymall.view.iview.IRegView;
 
 /**
@@ -130,6 +130,8 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "请输入邮箱地址", Toast.LENGTH_SHORT).show();
             return;
+        }else if (MyTextUtils.isEmailAddress(email)){
+            Toast.makeText(this, "请输入正确的邮箱地址", Toast.LENGTH_SHORT).show();
         }
 
         // TODO validate success, do something
