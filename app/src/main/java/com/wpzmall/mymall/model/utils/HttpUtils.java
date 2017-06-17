@@ -1,8 +1,12 @@
 package com.wpzmall.mymall.model.utils;
 
 
+import android.database.Observable;
+
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wpzmall.mymall.BuildConfig;
+import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
+import com.wpzmall.mymall.view.iview.IClassBiz;
 import com.wpzmall.mymall.view.iview.ILoginBiz;
 import com.wpzmall.mymall.view.iview.IRegBiz;
 
@@ -55,6 +59,8 @@ public class HttpUtils {
     public static void getRegHttpData(String url, Observer observer,String act,
                                       String op,String name,String pwd,
                                       String pwdc,String email,String client){
+
+
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.readTimeout(20,TimeUnit.SECONDS);
         builder.connectTimeout(20, TimeUnit.SECONDS);
@@ -77,4 +83,32 @@ public class HttpUtils {
                 .subscribe(observer);
 
     }
+
+    //分类方法
+    public static void getClassHttpData(String url, Observer observer,
+                                        String act,String client){
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.readTimeout(20,TimeUnit.SECONDS);
+        builder.connectTimeout(20,TimeUnit.SECONDS);
+
+        if (BuildConfig.DEBUG){
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        IClassBiz classGetFix = build.create(IClassBiz.class);
+        classGetFix.getData(act)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
+
 }

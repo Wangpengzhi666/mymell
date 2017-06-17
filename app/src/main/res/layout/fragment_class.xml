@@ -2,11 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     android:orientation="vertical">
 
     <include
         android:id="@+id/HomeTopInclude"
         layout="@layout/inculde_search"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/Class_list_left"
+            android:layout_width="70dp"
+            android:layout_height="match_parent">
+        </ListView>
+        <ExpandableListView
+            android:background="#FAFAFA"
+            android:id="@+id/Class_Expandable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:groupIndicator="@null">
+
+        </ExpandableListView>
+    </LinearLayout>
 
 </LinearLayout>

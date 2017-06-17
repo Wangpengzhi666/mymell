@@ -35,7 +35,6 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
 
             }
         },act,name, pwd,SYSTEM_TYPE);
-
     }
 
 }
