@@ -2,7 +2,9 @@ package com.wpzmall.mymall.view.iview;
 
 
 
+import com.wpzmall.mymall.model.Bean.Class.ExpandableBean;
 import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
+import com.wpzmall.mymall.view.activity.Constant;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -19,11 +21,11 @@ import retrofit2.http.Query;
 
 public interface IClassBiz {
     //分类页面一级列表请求方法
-    @GET("mobile/index.php")
-    Observable<LeftListBean> getData(@Query("act") String goods_class);
+    @GET(Constant.FCLASSISY_LISTVIEW_URL)
+    Observable<LeftListBean> getData();
 
 
-    //分类页面二级列表请求方法
-//    @GET(Constant.FCLASSISY_LISTVIEW_URL)
-//    Observable<FClassifyViewBean2> getData2(@Query("gc_id") String gc_id);
+    //分类页面二、三级列表请求方法
+    @GET(Constant.FCLASSISY_LISTVIEW_URL)
+    Observable<ExpandableBean> getData2(@Query("gc_id") String gc_id);
 }

@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <GridView
+    <com.wpzmall.mymall.view.myview.MyGridView
         android:id="@+id/item_class_expand_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3"></GridView>
+        android:numColumns="3">
+    </com.wpzmall.mymall.view.myview.MyGridView>
 
 </LinearLayout>

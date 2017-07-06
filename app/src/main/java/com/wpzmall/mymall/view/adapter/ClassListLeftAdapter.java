@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wpzmall.mymall.R;
 import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
@@ -65,7 +66,11 @@ public class ClassListLeftAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
         viewHolder.itemClassListText.setText(list.get(position).getGc_name());
-        ImageLoader.getInstance().displayImage(list.get(position).getImage(), viewHolder.itemClassListImage);
+        //逼格稍微高一点的Glide加载图片方法
+        Glide.with(context)
+                .load(list.get(position).getImage())
+                .placeholder(R.mipmap.ic_action_add)
+                .into(viewHolder.itemClassListImage);
 
         return convertView;
     }
@@ -74,6 +79,5 @@ public class ClassListLeftAdapter extends BaseAdapter {
     class ViewHolder {
         public ImageView itemClassListImage;
         public TextView itemClassListText;
-
     }
 }

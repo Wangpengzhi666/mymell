@@ -5,6 +5,7 @@ import android.database.Observable;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wpzmall.mymall.BuildConfig;
+import com.wpzmall.mymall.model.Bean.Class.ExpandableBean;
 import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
 import com.wpzmall.mymall.view.iview.IClassBiz;
 import com.wpzmall.mymall.view.iview.ILoginBiz;
@@ -31,6 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpUtils {
 
+    //登录方法
     public static void getLoginHttpData(String url, Observer observer,String act,
                                         String name,String pwd,String client){
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
@@ -85,8 +87,7 @@ public class HttpUtils {
     }
 
     //分类方法
-    public static void getClassHttpData(String url, Observer observer,
-                                        String act,String client){
+    public static void getClassHttpData(String url, Observer observer){
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.readTimeout(20,TimeUnit.SECONDS);
         builder.connectTimeout(20,TimeUnit.SECONDS);
@@ -104,11 +105,34 @@ public class HttpUtils {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         IClassBiz classGetFix = build.create(IClassBiz.class);
-        classGetFix.getData(act)
+        classGetFix.getData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
+    //请求分类界面二级列表的数据
+    public static void getClassExpandHttpData(String url, Observer observer, String gc_id){
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.readTimeout(20,TimeUnit.SECONDS);
+        builder.connectTimeout(20,TimeUnit.SECONDS);
 
+        if (BuildConfig.DEBUG){
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        IClassBiz classGetFix = build.create(IClassBiz.class);
+        classGetFix.getData2(gc_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 
 }

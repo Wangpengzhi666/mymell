@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable;
 
 
 public class RegPresenter extends BasePresenter<IRegView>  {
-    private String url="http://169.254.13.193/mobile/";
+    private String url="http://169.254.191.113/mobile/";
     private String act="login";
     private String op="register";
     private String SYSTEM_TYPE = "android";

@@ -9,7 +9,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class LoginPresenter extends BasePresenter<ILoginView> {
-    private String url="http://169.254.13.193/";
+    private String url="http://169.254.191.113/";
     private String act="login";
     private String SYSTEM_TYPE = "android";
     public void getLoginData(String name, String pwd ) {
@@ -34,7 +34,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             public void onComplete() {
 
             }
-        },act,name, pwd,SYSTEM_TYPE);
+        },act,name,pwd,SYSTEM_TYPE);
     }
 
 }

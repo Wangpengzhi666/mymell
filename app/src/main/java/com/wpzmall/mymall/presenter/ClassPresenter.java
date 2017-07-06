@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
 import com.wpzmall.mymall.model.utils.HttpUtils;
+import com.wpzmall.mymall.view.activity.Constant;
 import com.wpzmall.mymall.view.iview.IClassView;
 
 import io.reactivex.Observer;
@@ -19,10 +20,7 @@ import io.reactivex.disposables.Disposable;
 
 
 public class ClassPresenter extends BasePresenter<IClassView>{
-    private String url="http://169.254.13.193/";
-    private String act="goods_class";
-    private String SYSTEM_TYPE = "android";
-
+    private String url= Constant.LINK_MAIN;
     public void getClassData(){
         HttpUtils.getClassHttpData(url, new Observer<LeftListBean>() {
             @Override
@@ -44,7 +42,6 @@ public class ClassPresenter extends BasePresenter<IClassView>{
             public void onComplete() {
 
             }
-        },act,SYSTEM_TYPE);
-
+        });
     }
 }
