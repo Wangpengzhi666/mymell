@@ -10,10 +10,9 @@ package com.wpzmall.mymall.model.Bean.login;
 
 
 public class LoginBean {
-
     /**
-     * code : 400
-     * datas : {"error":"登录失败"}
+     * code : 200
+     * datas : {"username":"baobao","userid":"2","key":"471cf2049d91f6eafc31d72dbbd27fee"}
      */
 
     private int code;
@@ -37,17 +36,37 @@ public class LoginBean {
 
     public static class DatasBean {
         /**
-         * error : 登录失败
+         * username : baobao
+         * userid : 2
+         * key : 471cf2049d91f6eafc31d72dbbd27fee
          */
 
-        private String error;
+        private String username;
+        private String userid;
+        private String key;
 
-        public String getError() {
-            return error;
+        public String getUsername() {
+            return username;
         }
 
-        public void setError(String error) {
-            this.error = error;
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
         }
     }
 }

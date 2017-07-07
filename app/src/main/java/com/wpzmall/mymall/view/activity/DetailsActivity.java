@@ -1,24 +1,33 @@
 package com.wpzmall.mymall.view.activity;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wpzmall.mymall.R;
+import com.wpzmall.mymall.model.Bean.cart.CartAddBean;
 import com.wpzmall.mymall.model.Bean.details.DetailsBean;
+import com.wpzmall.mymall.presenter.CartAddPresenter;
 import com.wpzmall.mymall.presenter.DetailsPresenter;
 import com.wpzmall.mymall.view.adapter.DetailsListAdapter;
+import com.wpzmall.mymall.view.iview.ICartAddView;
 import com.wpzmall.mymall.view.iview.IDetailsView;
 
 import java.util.ArrayList;
@@ -33,7 +42,8 @@ import java.util.List;
  */
 
 
-public class DetailsActivity extends Activity implements View.OnClickListener,IDetailsView<DetailsBean> {
+public class DetailsActivity extends Activity implements View.OnClickListener, IDetailsView<DetailsBean>, ICartAddView<CartAddBean> {
+
     private ImageView detailsImage1;
     private TextView detailsName;
     private TextView detailsText1;
@@ -53,22 +63,100 @@ public class DetailsActivity extends Activity implements View.OnClickListener,ID
     private DetailsListAdapter detailsListAdapter;
     private List<DetailsBean.DatasBean.GoodsCommendListBean> detailslist = new ArrayList<>();
     private ScrollView detailsScroll;
+    private View parent;
+    private View view;
+    private PopupWindow pop;
+    private RadioButton customer_serverce;
+    private RadioButton cart;
+    private RadioButton make_in_cart;
+    private RadioButton details_now;
+    private RadioGroup details_radiogroup;
+    private ImageView intoCartImage;
+    private TextView intoCartName;
+    private TextView intoCartPrice;
+    private TextView intoCartNum;
+    private TextView intoCartSubtract;
+    private TextView intoCartBuyNum;
+    private TextView intoCartAdd;
+    private TextView intoCartOk;
+    private TextView intoCartBuynow;
+    private DetailsBean.DatasBean datas;
+    private SharedPreferences spf;
+    private CartAddPresenter cartPresenter;
+    private int cartQuantity = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         goods_id = this.getIntent().getStringExtra("goods_id");
-        Toast.makeText(this, this.goods_id + "654564654", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, this.goods_id + "654564654", Toast.LENGTH_SHORT).show();
         detailsPresenter = new DetailsPresenter();
         detailsPresenter.setmT(this);
         detailsPresenter.getDetailsData(this.goods_id);
+        cartPresenter = new CartAddPresenter();
+        cartPresenter.setmT(this);
+
+
+        spf = getSharedPreferences("mymall",  Context.MODE_PRIVATE);
+
         initView();
+        initPop();
+    }
+
+    private void initPop() {
+
+        view = View.inflate(DetailsActivity.this, R.layout.inculde_details_pop, null);
+        parent = View.inflate(DetailsActivity.this, R.layout.activity_details, null);
+
+
+        pop = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, 500);
+        pop.setOutsideTouchable(true); //设置周围区域可以触摸
+        pop.setBackgroundDrawable(new BitmapDrawable());//设置背景
+        pop.setFocusable(true); //窗体默认没有焦点 设置成true  让他可以被点击
+
+        //pop的控件
+        intoCartImage = (ImageView) view.findViewById(R.id.intoCart_image);  //展示图片
+        intoCartName = (TextView) view.findViewById(R.id.intoCart_name);  //展示商品名
+        intoCartPrice = (TextView) view.findViewById(R.id.intoCart_price);  //展示商品价格
+        intoCartNum = (TextView) view.findViewById(R.id.intoCart_num);  //
+        intoCartSubtract = (TextView) view.findViewById(R.id.intoCart_subtract);  //减少数量
+        intoCartBuyNum = (TextView) view.findViewById(R.id.intoCart_buyNum);  //商品数量
+        intoCartAdd = (TextView) view.findViewById(R.id.intoCart_add);  //增加数量
+        intoCartOk = (TextView) view.findViewById(R.id.intoCart_ok);  //加入购物车
+        intoCartOk.setOnClickListener(this);
+        intoCartBuynow = (TextView) view.findViewById(R.id.intoCart_buynow);  //立即购买
+
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.customer_serverce:
+                break;
+            case R.id.make_in_cart:
+                pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+                Glide.with(this)
+                        .load(datas.getGoods_image())
+                        .placeholder(R.mipmap.ic_action_add)
+                        .into(intoCartImage);
+                intoCartName.setText(datas.getGoods_info().getGoods_name());
+                intoCartPrice.setText(datas.getGoods_info().getGoods_promotion_price());
+                break;
+            case R.id.details_now:
+                break;
+            case R.id.details_radiogroup:
+                break;
+            case R.id.intoCart_ok:
+                String login_key = spf.getString("login_key", "a");
+                if (!login_key.equals("a")){
+                    cartPresenter.getListData(login_key,goods_id,intoCartBuyNum.getText().toString());
+                    pop.dismiss();
+                }else {
+                    Toast.makeText(this, "请先去登录", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     private void initView() {
@@ -93,29 +181,48 @@ public class DetailsActivity extends Activity implements View.OnClickListener,ID
 
         detailsScroll = (ScrollView) findViewById(R.id.details_scroll);
         //解决ScrollView嵌套listview后显示不是在顶部
-        detailsScroll.smoothScrollTo(0,20);
+        detailsScroll.smoothScrollTo(0, 20);
+
+
+        customer_serverce = (RadioButton) findViewById(R.id.customer_serverce);
+        customer_serverce.setOnClickListener(this);
+        cart = (RadioButton) findViewById(R.id.cart);
+        cart.setOnClickListener(this);
+        make_in_cart = (RadioButton) findViewById(R.id.make_in_cart);
+        make_in_cart.setOnClickListener(this);
+        details_now = (RadioButton) findViewById(R.id.details_now);
+        details_now.setOnClickListener(this);
+        details_radiogroup = (RadioGroup) findViewById(R.id.details_radiogroup);
+        details_radiogroup.setOnClickListener(this);
 
     }
+
     @Override
     public void callbackData(DetailsBean detailsBean) {
-        Log.e("asdasdas",detailsBean.getDatas().getGoods_info().getGoods_name());
-        setImageBackGroud(detailsBean.getDatas().getGoods_image(),detailsImage1);
+        Log.e("asdasdas", detailsBean.getDatas().getGoods_info().getGoods_name());
+        setImageBackGroud(detailsBean.getDatas().getGoods_image(), detailsImage1);
         detailsName.setText(detailsBean.getDatas().getGoods_info().getGoods_name());
         detailsText1.setText(detailsBean.getDatas().getGoods_info().getGoods_jingle());
-        detailsPrice.setText("￥"+detailsBean.getDatas().getGoods_info().getGoods_price());
-        detailsNum.setText("销量"+detailsBean.getDatas().getGoods_info().getGoods_salenum());
+        detailsPrice.setText("￥" + detailsBean.getDatas().getGoods_info().getGoods_price());
+        detailsNum.setText("销量" + detailsBean.getDatas().getGoods_info().getGoods_salenum());
         detailsAreaName.setText(detailsBean.getDatas().getGoods_hair_info().getArea_name());
-        detailsYunfei.setText(detailsBean.getDatas().getGoods_hair_info().getIf_store_cn()+" "+detailsBean.getDatas().getGoods_hair_info().getContent());
-        detailsGoodPercent.setText("好评率"+detailsBean.getDatas().getGoods_evaluate_info().getGood_percent()+"%");
-        detailsEvaluation.setText(detailsBean.getDatas().getGoods_evaluate_info().getNormal()+"人评价");
-        detailsDesccredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_desccredit().getText()+":"+detailsBean.getDatas().getStore_info().getStore_credit().getStore_desccredit().getCredit());
-        detailsServicecredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_servicecredit().getText()+":"+detailsBean.getDatas().getStore_info().getStore_credit().getStore_servicecredit().getCredit());
-        detailsDeliverycredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_deliverycredit().getText()+":"+detailsBean.getDatas().getStore_info().getStore_credit().getStore_deliverycredit().getCredit());
+        detailsYunfei.setText(detailsBean.getDatas().getGoods_hair_info().getIf_store_cn() + " " + detailsBean.getDatas().getGoods_hair_info().getContent());
+        detailsGoodPercent.setText("好评率" + detailsBean.getDatas().getGoods_evaluate_info().getGood_percent() + "%");
+        detailsEvaluation.setText(detailsBean.getDatas().getGoods_evaluate_info().getNormal() + "人评价");
+        detailsDesccredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_desccredit().getText() + ":" + detailsBean.getDatas().getStore_info().getStore_credit().getStore_desccredit().getCredit());
+        detailsServicecredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_servicecredit().getText() + ":" + detailsBean.getDatas().getStore_info().getStore_credit().getStore_servicecredit().getCredit());
+        detailsDeliverycredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_deliverycredit().getText() + ":" + detailsBean.getDatas().getStore_info().getStore_credit().getStore_deliverycredit().getCredit());
+
+
+
         detailslist = detailsBean.getDatas().getGoods_commend_list();
         detailsListAdapter.getData(detailslist);
         setListViewHeightBasedOnChildren(detailsListview);
         detailsListAdapter.notifyDataSetChanged();
+
+        datas = detailsBean.getDatas();
     }
+
     //设置scrollview嵌套list view只显示一个条目的问题
     public void setListViewHeightBasedOnChildren(ListView detailsListview) {
         // 获取ListView对应的Adapter
@@ -135,11 +242,12 @@ public class DetailsActivity extends Activity implements View.OnClickListener,ID
         }
 
         ViewGroup.LayoutParams params = detailsListview.getLayoutParams();
-        params.height = totalHeight+ (detailsListview.getDividerHeight() * (detailsListAdapter.getCount() - 1));
+        params.height = totalHeight + (detailsListview.getDividerHeight() * (detailsListAdapter.getCount() - 1));
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         detailsListview.setLayoutParams(params);
     }
+
 
 
     @Override
@@ -149,7 +257,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener,ID
 
 
     //设置显示网络图片
-    private void setImageBackGroud(String url,ImageView imageView) {
+    private void setImageBackGroud(String url, ImageView imageView) {
 //        RequestOptions options = new RequestOptions()
 //                .placeholder(R.mipmap.ic_launcher)    //设置占位符
 //                .error(R.mipmap.ic_launcher);   //设置错误时显示的图片
@@ -163,5 +271,21 @@ public class DetailsActivity extends Activity implements View.OnClickListener,ID
                 .load(url)
                 .placeholder(R.mipmap.ic_action_add)
                 .into(imageView);
+    }
+
+    @Override
+    public void callbackCartAddData(CartAddBean cartAddBean) {
+        int code = cartAddBean.getCode();
+        if (code == 200){
+            Toast.makeText(this, "风里雨里,购物车等你", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "小问题", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void callbackCartAddErrer(String errcode) {
+
     }
 }

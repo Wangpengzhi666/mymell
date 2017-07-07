@@ -27,4 +27,6 @@ public interface IClassBiz {
     //分类页面二、三级列表请求方法
     @GET(Constant.FCLASSISY_LISTVIEW_URL)
     Observable<ExpandableBean> getData2(@Query("gc_id") String gc_id);
+
+
 }

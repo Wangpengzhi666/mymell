@@ -1,7 +1,9 @@
 package com.wpzmall.mymall.view.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,11 +36,15 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
     private TextView loginTextZhuce;
     private TextView loginTextPassword;
     private LoginPresenter mPresenter;
+    private SharedPreferences spf;
+    private SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        spf = getSharedPreferences("mymall",  Context.MODE_PRIVATE);
+
         initView();
         setPresenter();
 
@@ -113,6 +119,11 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
         int code = loginBean.getCode();
         if (code == 200){
             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_LONG).show();
+            String key = loginBean.getDatas().getKey();
+            Log.e("asd",key + "                    asdsad");
+            edit = spf.edit();
+            edit.putString("login_key", key);
+            edit.commit();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.out,R.anim.in);
