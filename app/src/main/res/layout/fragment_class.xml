@@ -17,11 +17,12 @@
             android:scrollbarThumbVertical="@drawable/drawable_list_scrollbar_thumb">
         </ListView>
         <ExpandableListView
-            android:background="#FAFAFA"
+            android:background="#11000000"
             android:id="@+id/Class_Expandable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:groupIndicator="@null">
+            android:groupIndicator="@null"
+            >
         </ExpandableListView>
     </LinearLayout>
 

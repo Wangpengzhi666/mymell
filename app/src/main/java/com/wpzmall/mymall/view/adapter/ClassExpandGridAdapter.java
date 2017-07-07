@@ -35,6 +35,7 @@ public class ClassExpandGridAdapter extends BaseAdapter {
     public void getData(List<ExpandableBean.DatasBean.ClassListBean> class_list) {
         this.list = class_list;
     }
+
     @Override
     public int getCount() {
         return list.size();

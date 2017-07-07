@@ -8,6 +8,8 @@ import com.wpzmall.mymall.BuildConfig;
 import com.wpzmall.mymall.model.Bean.Class.ExpandableBean;
 import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
 import com.wpzmall.mymall.view.iview.IClassBiz;
+import com.wpzmall.mymall.view.iview.IDetailsBiz;
+import com.wpzmall.mymall.view.iview.IListBiz;
 import com.wpzmall.mymall.view.iview.ILoginBiz;
 import com.wpzmall.mymall.view.iview.IRegBiz;
 
@@ -134,5 +136,53 @@ public class HttpUtils {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+    //列表页的数据
+    public static void getListHttpData(String url, Observer observer, String page,
+                                       String gc_id){
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.readTimeout(20,TimeUnit.SECONDS);
+        builder.connectTimeout(20,TimeUnit.SECONDS);
 
+        if (BuildConfig.DEBUG){
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        IListBiz classGetFix = build.create(IListBiz.class);
+        classGetFix.getData(page,gc_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+    //详情页数据
+    public static void getDetailsHttpData(String url, Observer observer, String goods_id){
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.readTimeout(20,TimeUnit.SECONDS);
+        builder.connectTimeout(20,TimeUnit.SECONDS);
+
+        if (BuildConfig.DEBUG){
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        IDetailsBiz classGetFix = build.create(IDetailsBiz.class);
+        classGetFix.getData(goods_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

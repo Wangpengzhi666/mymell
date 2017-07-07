@@ -28,6 +28,7 @@ public class ClassListLeftAdapter extends BaseAdapter {
 
     private Context context;
     private List<LeftListBean.DatasBean.ClassListBean> list = new ArrayList<>();
+    private int defItem;//声明默认选中的项
 
     public void getData(List<LeftListBean.DatasBean.ClassListBean> class_list) {
         this.list = class_list;

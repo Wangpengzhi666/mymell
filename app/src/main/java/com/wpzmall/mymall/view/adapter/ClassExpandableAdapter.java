@@ -1,14 +1,18 @@
 package com.wpzmall.mymall.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.wpzmall.mymall.R;
 import com.wpzmall.mymall.model.Bean.Class.ExpandableBean;
+import com.wpzmall.mymall.view.activity.ListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +97,16 @@ public class ClassExpandableAdapter extends BaseExpandableListAdapter {
         gridview.setAdapter(classExpandGridAdapter);
         classExpandGridAdapter.getData(gridlist);
         classExpandGridAdapter.notifyDataSetChanged();
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, ListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", gridlist.get(position).getGc_id());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
