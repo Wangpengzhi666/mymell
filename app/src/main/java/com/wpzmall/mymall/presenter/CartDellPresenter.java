@@ -4,6 +4,7 @@ import com.wpzmall.mymall.model.Bean.cart.CartAddBean;
 import com.wpzmall.mymall.model.utils.HttpUtils;
 import com.wpzmall.mymall.view.activity.Constant;
 import com.wpzmall.mymall.view.iview.ICartAddView;
+import com.wpzmall.mymall.view.iview.ICartDeleteView;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -11,16 +12,16 @@ import io.reactivex.disposables.Disposable;
 /**
  * @类作用:
  * @author: 王鹏智
- * @Date: 2017/7/7  20:40
+ * @Date: 2017/7/9  21:04
  * <p>
  * 思路：
  */
 
 
-public class CartAddPresenter extends BasePresenter<ICartAddView> {
+public class CartDellPresenter extends BasePresenter<ICartDeleteView> {
     private String url= Constant.LINK_MAIN;
-    public void getListData(String key,String goods_id,String quantity){
-        HttpUtils.getCartAddHttpData(url, new Observer<CartAddBean>() {
+    public void getcertdellData(String key,String cart_id){
+        HttpUtils.getCartDellHttpData(url, new Observer<CartAddBean>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -28,7 +29,7 @@ public class CartAddPresenter extends BasePresenter<ICartAddView> {
 
             @Override
             public void onNext(CartAddBean value) {
-                getmT().callbackCartAddData(value);
+                getmT().callbackCartDelData(value);
             }
 
             @Override
@@ -40,6 +41,6 @@ public class CartAddPresenter extends BasePresenter<ICartAddView> {
             public void onComplete() {
 
             }
-        }, key, goods_id, quantity);
+        }, key,cart_id);
     }
 }

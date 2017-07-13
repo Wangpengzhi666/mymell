@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:name=".model.utils.App">
-        <activity android:name=".view.activity.MainActivity">
+        <activity android:name=".view.activity.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +22,7 @@
         <activity android:name=".view.activity.RegisteredActivity"></activity>
         <activity android:name=".view.activity.ListActivity"></activity>
         <activity android:name=".view.activity.DetailsActivity"></activity>
+        <activity android:name=".view.activity.CommitOrderActivity"></activity>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.wpzmall.mymall.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -26,9 +27,12 @@ import com.wpzmall.mymall.model.Bean.cart.CartAddBean;
 import com.wpzmall.mymall.model.Bean.details.DetailsBean;
 import com.wpzmall.mymall.presenter.CartAddPresenter;
 import com.wpzmall.mymall.presenter.DetailsPresenter;
+import com.wpzmall.mymall.view.Event.MessageEvent;
 import com.wpzmall.mymall.view.adapter.DetailsListAdapter;
 import com.wpzmall.mymall.view.iview.ICartAddView;
 import com.wpzmall.mymall.view.iview.IDetailsView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +88,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
     private SharedPreferences spf;
     private CartAddPresenter cartPresenter;
     private int cartQuantity = 1;
+    private ImageView back;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +103,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
         cartPresenter.setmT(this);
 
 
-        spf = getSharedPreferences("mymall",  Context.MODE_PRIVATE);
+        spf = getSharedPreferences("mymall", Context.MODE_PRIVATE);
 
         initView();
         initPop();
@@ -110,7 +115,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
         parent = View.inflate(DetailsActivity.this, R.layout.activity_details, null);
 
 
-        pop = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, 500);
+        pop = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, 550);
         pop.setOutsideTouchable(true); //设置周围区域可以触摸
         pop.setBackgroundDrawable(new BitmapDrawable());//设置背景
         pop.setFocusable(true); //窗体默认没有焦点 设置成true  让他可以被点击
@@ -121,8 +126,10 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
         intoCartPrice = (TextView) view.findViewById(R.id.intoCart_price);  //展示商品价格
         intoCartNum = (TextView) view.findViewById(R.id.intoCart_num);  //
         intoCartSubtract = (TextView) view.findViewById(R.id.intoCart_subtract);  //减少数量
+        intoCartSubtract.setOnClickListener(this);
         intoCartBuyNum = (TextView) view.findViewById(R.id.intoCart_buyNum);  //商品数量
         intoCartAdd = (TextView) view.findViewById(R.id.intoCart_add);  //增加数量
+        intoCartAdd.setOnClickListener(this);
         intoCartOk = (TextView) view.findViewById(R.id.intoCart_ok);  //加入购物车
         intoCartOk.setOnClickListener(this);
         intoCartBuynow = (TextView) view.findViewById(R.id.intoCart_buynow);  //立即购买
@@ -134,6 +141,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
         switch (v.getId()) {
             case R.id.customer_serverce:
                 break;
+            //加入购物车
             case R.id.make_in_cart:
                 pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
                 Glide.with(this)
@@ -145,25 +153,56 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
                 break;
             case R.id.details_now:
                 break;
+            //跳转到购物车界面
+            case R.id.cart:
+                //EventBus传值
+                Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+                intent.putExtra("Details",3);
+                startActivity(intent);
+//                MessageEvent messageEvent = new MessageEvent();
+//                messageEvent.setGoCart("3");
+//                EventBus.getDefault().post(messageEvent);
+                break;
             case R.id.details_radiogroup:
                 break;
+            //加入购物车pop中的确定按钮
             case R.id.intoCart_ok:
                 String login_key = spf.getString("login_key", "a");
-                if (!login_key.equals("a")){
-                    cartPresenter.getListData(login_key,goods_id,intoCartBuyNum.getText().toString());
+                if (!login_key.equals("a")) {
+                    cartPresenter.getListData(login_key, goods_id, intoCartBuyNum.getText().toString());
                     pop.dismiss();
-                }else {
+                } else {
                     Toast.makeText(this, "请先去登录", Toast.LENGTH_SHORT).show();
                 }
+                break;
+            //减小数量按钮
+            case R.id.intoCart_subtract:
+                if (cartQuantity == 1) {
+                    Toast.makeText(this,"已经是最小数量了，不诚心买就别点了", Toast.LENGTH_SHORT).show();
+                } else {
+                    cartQuantity--;
+                    String s = Integer.toString(cartQuantity);
+                    intoCartBuyNum.setText(s);
+                }
+                break;
+            //增加数量按钮
+            case R.id.intoCart_add:
+                cartQuantity++;
+                String s = Integer.toString(cartQuantity);
+                intoCartBuyNum.setText(s);
+                break;
+            //返回按钮
+            case R.id.back:
+
                 break;
         }
     }
 
     private void initView() {
-        detailsImage1 = (ImageView) findViewById(R.id.details_image1);
-        detailsName = (TextView) findViewById(R.id.details_name);
+        detailsImage1 = (ImageView) findViewById(R.id.details_image1);  //详情页商品图片
+        detailsName = (TextView) findViewById(R.id.details_name);  //详情页商品名
         detailsText1 = (TextView) findViewById(R.id.details_text_1);
-        detailsPrice = (TextView) findViewById(R.id.details_price);
+        detailsPrice = (TextView) findViewById(R.id.details_price);  //详情页商品单价
         detailsNum = (TextView) findViewById(R.id.details_num);
         detailsAreaName = (TextView) findViewById(R.id.details_area_name);
         detailsYunfei = (TextView) findViewById(R.id.details_yunfei);
@@ -195,6 +234,9 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
         details_radiogroup = (RadioGroup) findViewById(R.id.details_radiogroup);
         details_radiogroup.setOnClickListener(this);
 
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(this);
+
     }
 
     @Override
@@ -212,7 +254,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
         detailsDesccredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_desccredit().getText() + ":" + detailsBean.getDatas().getStore_info().getStore_credit().getStore_desccredit().getCredit());
         detailsServicecredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_servicecredit().getText() + ":" + detailsBean.getDatas().getStore_info().getStore_credit().getStore_servicecredit().getCredit());
         detailsDeliverycredit.setText(detailsBean.getDatas().getStore_info().getStore_credit().getStore_deliverycredit().getText() + ":" + detailsBean.getDatas().getStore_info().getStore_credit().getStore_deliverycredit().getCredit());
-
 
 
         detailslist = detailsBean.getDatas().getGoods_commend_list();
@@ -249,7 +290,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
     }
 
 
-
     @Override
     public void callbackErrer(String errcode) {
 
@@ -258,15 +298,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
 
     //设置显示网络图片
     private void setImageBackGroud(String url, ImageView imageView) {
-//        RequestOptions options = new RequestOptions()
-//                .placeholder(R.mipmap.ic_launcher)    //设置占位符
-//                .error(R.mipmap.ic_launcher);   //设置错误时显示的图片
-//        Glide.with(this)
-//                .load(url)
-//                .apply(options)
-//                .transition(new DrawableTransitionOptions().crossFade(2000))  //使用动画效果
-//                .into(imageView);
-
         Glide.with(this)
                 .load(url)
                 .placeholder(R.mipmap.ic_action_add)
@@ -276,9 +307,14 @@ public class DetailsActivity extends Activity implements View.OnClickListener, I
     @Override
     public void callbackCartAddData(CartAddBean cartAddBean) {
         int code = cartAddBean.getCode();
-        if (code == 200){
+        if (code == 200) {
             Toast.makeText(this, "风里雨里,购物车等你", Toast.LENGTH_SHORT).show();
-        }else {
+            //EventBus传值
+            MessageEvent messageEvent = new MessageEvent();
+            messageEvent.setCart("1");
+            EventBus.getDefault().post(messageEvent);
+
+        } else {
             Toast.makeText(this, "小问题", Toast.LENGTH_SHORT).show();
         }
 

@@ -235,4 +235,28 @@ public class HttpUtils {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+    //查询购物车删除的方法
+    public static void getCartDellHttpData(String url, Observer observer,String key,String cart_id){
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.readTimeout(20, TimeUnit.SECONDS);
+        builder.connectTimeout(20, TimeUnit.SECONDS);
+
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ICartBiz inPostfix = build.create(ICartBiz.class);
+        inPostfix.postCartDell(key,cart_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

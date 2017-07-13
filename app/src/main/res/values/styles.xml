@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Control"/>
+    <style name="Control" />
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -30,6 +30,7 @@
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">12dp</item>
     </style>
+
     <style name="TextView.User.Title" parent="Control">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
@@ -41,6 +42,7 @@
         <item name="android:drawableRight">@mipmap/ic_normal_dot_left</item>
         <item name="android:background">@color/white</item>
     </style>
+
     <style name="TextView.User.subTitle" parent="Control">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">match_parent</item>
@@ -48,7 +50,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
     </style>
-    
+
     <style name="EditText.login" parent="Control">
         <item name="android:maxLines">1</item>
         <item name="android:textSize">14sp</item>
@@ -61,6 +63,7 @@
         <item name="android:textColorHint">@color/greyAdd</item>
         <item name="android:background">@drawable/selector_edit_line</item>
     </style>
+
     <style name="Textview.button" parent="Control">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -73,4 +76,8 @@
         <item name="android:gravity">center</item>
     </style>
 
+    //购物车多选按钮
+    <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
 </resources>

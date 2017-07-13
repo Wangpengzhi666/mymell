@@ -21,15 +21,19 @@ import retrofit2.http.POST;
 public interface ICartBiz {
     //加入购物车
     @FormUrlEncoded
-    @POST(Constant.ACTIVITY_Cart_Add_URL)
+    @POST(Constant.ACTIVITY_CART_Add_URL)
     Observable<CartAddBean> postCartAdd(@Field("key") String username,
                                          @Field("goods_id") String goods_id,
                                          @Field("quantity") String quantity);
     //购物车查询数据
     @FormUrlEncoded
-    @POST(Constant.ACTIVITY_Cart_URL)
+    @POST(Constant.ACTIVITY_CART_URL)
     Observable<CartBean> postCart(@Field("key") String username);
 
-
+//    购物车删除数据
+    @FormUrlEncoded
+    @POST(Constant.ACTIVITY_CART_DEL_URL)
+    Observable<CartAddBean> postCartDell(@Field("key") String username,
+                                         @Field("cart_id") String cart_id);
 
 }

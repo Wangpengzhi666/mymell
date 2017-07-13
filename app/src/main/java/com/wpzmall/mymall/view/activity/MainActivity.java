@@ -7,16 +7,23 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.wpzmall.mymall.R;
+import com.wpzmall.mymall.view.Event.MessageEvent;
 import com.wpzmall.mymall.view.frgament.CartFragment;
 import com.wpzmall.mymall.view.frgament.ClassFragment;
 import com.wpzmall.mymall.view.frgament.HomeFragment;
 import com.wpzmall.mymall.view.frgament.UserFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,17 +38,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CartFragment cartFragment;
     private UserFragment userFragment;
     //默认显示的值
-    private int Display = 1;
+    private int Display = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //登录页面跳转回来的值
         int key4 =  this.getIntent().getIntExtra("key4",4);
         if (key4 == 4){
             Display = key4;
         }
 
+        //详情页跳回购物车
+        int details = this.getIntent().getIntExtra("Details", 3);
+        if (details == 3){
+            Display = details;
+            Toast.makeText(this, Display + "", Toast.LENGTH_SHORT).show();
+        }
 
         initView();
         initDefultView();
@@ -61,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 2:
                 break;
             case 3:
+                HomeRadioButton.setChecked(false);
+                ClassRadioButton.setChecked(false);
+                CartRadioButton.setChecked(true);
+                UserRadioButton.setChecked(false);
                 break;
             case 4:
                 HomeRadioButton.setChecked(false);
