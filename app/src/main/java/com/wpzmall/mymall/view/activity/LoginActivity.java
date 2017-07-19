@@ -109,7 +109,8 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
                 Intent returnintent = new Intent(LoginActivity.this, MainActivity.class);
                 returnintent.putExtra("key4",4);
                 startActivity(returnintent);
-                overridePendingTransition(R.anim.out,R.anim.in);
+//                overridePendingTransition(R.anim.out,R.anim.in);
+                overridePendingTransition(R.anim.in2,R.anim.out2);
                 break;
         }
     }
@@ -126,7 +127,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,ILog
             edit.commit();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.out,R.anim.in);
+            overridePendingTransition(R.anim.in2,R.anim.out2);
         }
         Log.e("++++++asd++asd+++asd",code + "");
     }

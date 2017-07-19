@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.wpzmall.mymall.R;
 import com.wpzmall.mymall.model.Bean.commit.CommitBean;
+import com.wpzmall.mymall.presenter.CommitPresenter;
 import com.wpzmall.mymall.view.iview.ICommitView;
 
 /**
@@ -37,22 +38,30 @@ public class CommitOrderActivity extends Activity implements View.OnClickListene
     private ListView mCommitListview;
     private ScrollView mCommitScrollview;
     private TextView mCommitSubmit;
+    private CommitPresenter commitPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commit_order);
+        commitPresenter = new CommitPresenter();
+        commitPresenter.setmT(this);
         initView();
     }
 
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.commit_back:
 
+                break;
+        }
     }
 
     private void initView() {
         mCommitBack = (ImageView) findViewById(R.id.commit_back);
+        mCommitBack.setOnClickListener(this);
         mCommitAddress = (TextView) findViewById(R.id.commit_address);
         mAddress = (TextView) findViewById(R.id.address);
         mPayment = (RadioButton) findViewById(R.id.payment);

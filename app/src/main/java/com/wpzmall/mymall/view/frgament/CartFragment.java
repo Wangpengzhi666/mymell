@@ -49,7 +49,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, ICar
     private Button cartSettlement;
     private int piece = 0;
     private int money = 0;
-    private List<CartBean.DatasBean.CartListBean.GoodsBean> List = new ArrayList<>();
+    private List<CartBean.DatasBean.CartListBean.GoodsBean> list = new ArrayList<>();
     private SharedPreferences spf;
     private CartPresenter cartPresenter;
     private ListView cartList;
@@ -91,33 +91,43 @@ public class CartFragment extends Fragment implements View.OnClickListener, ICar
 
     private void initView() {
         cartTotalAmount = (TextView) getActivity().findViewById(R.id.cart_total_amount);
-        String str = "共<font color='#FF5001'>" + piece + "</font>件商品,共<font color='#FF5001'>" + money + "</font>元";
-        cartTotalAmount.setTextSize(18);
-        cartTotalAmount.setText(Html.fromHtml(str));
 
         cartSettlement = (Button) getActivity().findViewById(R.id.cart_settlement);
         cartSettlement.setOnClickListener(this);
         cartList = (ListView) getActivity().findViewById(R.id.cart_list);
         cartListAdapter = new CartListAdapter(getActivity());
         cartList.setAdapter(cartListAdapter);
+        cartListAdapter.setText(cartTotalAmount);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cart_settlement:
-                Toast.makeText(getActivity(), "掏钱了昂", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "下单了昂", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < list.size(); i++) {
+                    Log.e("shuju",list.get(i).getCart_check() + "");
+                    if (list.get(i).getCart_check()){
+                        String cart_id = list.get(i).getCart_id();
+                        String goods_num = list.get(i).getGoods_num();
+                        StringBuffer s1 = new StringBuffer(cart_id);
+                        s1.append("|" + goods_num);
+                        s1.append("," + s1);
+                        Toast.makeText(getActivity(), s1, Toast.LENGTH_SHORT).show();
+                    }else {
+
+                    }
+                }
                 Intent intent = new Intent(getActivity(), CommitOrderActivity.class);
                 startActivity(intent);
-
                 break;
         }
     }
 
     @Override
     public void callbackCartData(CartBean cartBean) {
-        List = cartBean.getDatas().getCart_list().get(0).getGoods();
-        cartListAdapter.setData(List);
+        list = cartBean.getDatas().getCart_list().get(0).getGoods();
+        cartListAdapter.setData(list);
         cartListAdapter.notifyDataSetChanged();
     }
 

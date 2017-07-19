@@ -9,6 +9,7 @@ import com.wpzmall.mymall.model.Bean.Class.ExpandableBean;
 import com.wpzmall.mymall.model.Bean.Class.LeftListBean;
 import com.wpzmall.mymall.view.iview.ICartBiz;
 import com.wpzmall.mymall.view.iview.IClassBiz;
+import com.wpzmall.mymall.view.iview.ICommitBiz;
 import com.wpzmall.mymall.view.iview.IDetailsBiz;
 import com.wpzmall.mymall.view.iview.IListBiz;
 import com.wpzmall.mymall.view.iview.ILoginBiz;
@@ -47,6 +48,9 @@ public class HttpUtils {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(interceptor);
         }
+
+
+
         Retrofit build = new Retrofit.Builder()
                 .baseUrl(url)
                 .client(builder.build())
@@ -255,6 +259,29 @@ public class HttpUtils {
 
         ICartBiz inPostfix = build.create(ICartBiz.class);
         inPostfix.postCartDell(key,cart_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+    //提交订单方法
+    public static void getCommitHttpData(String url, Observer observer,String key,String cart_id,String ifcart){
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.readTimeout(20, TimeUnit.SECONDS);
+        builder.connectTimeout(20, TimeUnit.SECONDS);
+
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ICommitBiz inPostfix = build.create(ICommitBiz.class);
+        inPostfix.postCommit(key,cart_id,ifcart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

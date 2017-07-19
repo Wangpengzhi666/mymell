@@ -1,5 +1,6 @@
 package com.wpzmall.mymall.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -50,15 +51,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Display = key4;
         }
 
-        //详情页跳回购物车
-        int details = this.getIntent().getIntExtra("Details", 3);
-        if (details == 3){
-            Display = details;
-            Toast.makeText(this, Display + "", Toast.LENGTH_SHORT).show();
-        }
+//        //详情页跳回购物车
+//        int details = this.getIntent().getIntExtra("Details", 1);
+////        int details = this.getIntent().getIntExtra("Details", 0);
+//        if (details == 3){
+//            Display = details;
+//            Toast.makeText(this, Display + "", Toast.LENGTH_SHORT).show();
+//        }
 
         initView();
         initDefultView();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //详情页跳回购物车
+        int details = this.getIntent().getIntExtra("Details", 1);
+//        int details = this.getIntent().getIntExtra("Details", 0);
+        if (details == 3){
+            Display = details;
+            Toast.makeText(this, Display + "", Toast.LENGTH_SHORT).show();
+
+            onClick(CartRadioButton);
+        }
+//        initView();
     }
 
     private void initView() {

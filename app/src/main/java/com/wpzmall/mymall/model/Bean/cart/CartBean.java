@@ -142,7 +142,7 @@ public class CartBean {
                  * goods_image_url : http://169.254.191.113/data/upload/shop/store/goods/1/1_04752627678636481_240.jpg
                  * goods_total : 70000.00
                  */
-
+                private boolean cart_check;
                 private String cart_id;
                 private String buyer_id;
                 private String store_id;
@@ -175,6 +175,14 @@ public class CartBean {
                 private List<?> xianshi_info;
                 private List<?> sole_info;
                 private List<?> contractlist;
+
+                public boolean getCart_check() {
+                    return cart_check;
+                }
+
+                public void setCart_check(Boolean cart_check) {
+                    this.cart_check = cart_check;
+                }
 
                 public String getCart_id() {
                     return cart_id;

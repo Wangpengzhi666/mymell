@@ -71,7 +71,7 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
         Toast.makeText(this, "注册  :   " + registerBean.toString(), Toast.LENGTH_SHORT).show();
         Intent returnIntent = new Intent(RegisteredActivity.this, LoginActivity.class);
         startActivity(returnIntent);
-        overridePendingTransition(R.anim.in,R.anim.out);
+        overridePendingTransition(R.anim.in2,R.anim.out2);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class RegisteredActivity extends Activity implements IRegView<RegisteredB
             case R.id.image_lift_arrow:
                 Intent returnIntent = new Intent(RegisteredActivity.this, LoginActivity.class);
                 startActivity(returnIntent);
-                overridePendingTransition(R.anim.in,R.anim.out);
+                overridePendingTransition(R.anim.in2,R.anim.out2);
                 break;
             case R.id.registered_button:
                 submit();
